@@ -23,10 +23,22 @@ try
     cvx_save_prefs
 end
 
+%% Create folder for saving results
+output_folder = sprintf('results/subSample=%f.sampleMode=%s.percSamples=%f', ...
+    settings.subSample, settings.sampleMode, settings.percEdges);
+mkdir(output_folder);
+
 %% Loop over all data
 for img_ID = 375 : 10: 1400
     disp('========================')
     disp(['Image ID: ', num2str(img_ID)]);
     
-    sparse_reconstruction
+    results_filename = [output_folder, '/', num2str(img_ID), '.mat'];
+    if exist(results_filename, 'file') == 2
+        disp('File already exists. Skip this one.')
+        continue;
+    else
+        results = sparse_reconstruction(img_ID, settings);
+        save(results_filename, 'results');
+    end
 end

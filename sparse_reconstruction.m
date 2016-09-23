@@ -1,3 +1,4 @@
+function results = sparse_reconstruction(img_ID, settings);
 % This is the main procedure for sparse depth reconstruction. We load depth
 % images from the data folder, create random depth measurements (depending on 
 % the "settings" structure array), reconstruct the depth images and
@@ -67,8 +68,40 @@ disp(['l1 reconstruction: average error = ', num2str(rec_error)])
 sample_mask = zeros(size(depth));
 sample_mask(samples) = ones(size(samples));
 figure(1);
-subplot(221); imshow(depth/255); title('original depth')
-subplot(222); imshow(sample_mask); title('samples')
-subplot(223); imshow(rec_depth/255); title(['rec (err=', num2str(sprintf('%.2f', rec_error)), 'm)'])
-subplot(224); imshow(Znaive/255); title(['naive (err=', num2str(sprintf('%.2f', naive_error)), 'm)'])
+subplot(221); 
+cMap=colormap('parula'); imagesc(uint8(depth)); 
+axis image; axis off;
+title('original depth')
+
+subplot(222); 
+colormap(cMap); imagesc(uint8(sample_mask)); 
+axis image; axis off;
+title('samples')
+
+subplot(223); 
+colormap(cMap);imagesc(uint8(rec_depth)); 
+axis image; axis off;
+title(['rec (err=', num2str(sprintf('%.2f', rec_error)), 'm)'])
+
+subplot(224); 
+colormap(cMap); imagesc(uint8(Znaive)); 
+axis image; axis off;
+title(['naive (err=', num2str(sprintf('%.2f', naive_error)), 'm)'])
 drawnow
+
+%% Saving results
+results.depth = depth;
+results.rgb = rgb;
+results.img_ID = img_ID;
+
+results.samples = samples;
+results.sample_mask = sample_mask;
+
+results.rec_depth = rec_depth;
+results.rec_error = rec_error;
+
+results.Znaive = Znaive;
+results.naive_error = naive_error;
+
+
+end
