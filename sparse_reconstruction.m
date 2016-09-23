@@ -26,6 +26,7 @@ disp('Loading data..')
 [ depth, rgb ] = load_image(img_ID);
 if size(depth, 1) == 0  % file does not exist
     warning(['File ', num2str(img_ID), ' does not exist. Skipped.'])
+    results = [];
     return
 end
 

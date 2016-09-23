@@ -29,7 +29,7 @@ output_folder = sprintf('results/subSample=%f.sampleMode=%s.percSamples=%f', ...
 mkdir(output_folder);
 
 %% Loop over all data
-for img_ID = 375 : 10: 1400
+for img_ID = 375 : 5: 1400
     disp('========================')
     disp(['Image ID: ', num2str(img_ID)]);
     
