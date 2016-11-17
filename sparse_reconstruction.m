@@ -55,12 +55,16 @@ y = R * zGT + noise;    % measurement vector
 
 %% Reconstruction
 % naive linear interpolation
+tic
 Znaive = naive( depth, samples, y, settings );
+time_naive = toc;
 naive_error = norm(vec(Znaive) - zGT, 1) / N / 255 * 10; % avg error in meters
 disp(['naive: average error = ', num2str(naive_error)])
 
 % our l1 reconstruction approach
+tic
 z = l1_reconstruction( height, width, R, y, settings);
+time_l1 = toc;
 rec_depth = reshape(z, height, width);
 rec_error = norm(z - zGT, 1) / N / 255 * 10;    % avg error in meters
 disp(['l1 reconstruction: average error = ', num2str(rec_error)])
@@ -103,6 +107,9 @@ results.rec_error = rec_error;
 
 results.Znaive = Znaive;
 results.naive_error = naive_error;
+
+results.time_l1 = time_l1;
+results.time_naive = time_naive
 
 
 end

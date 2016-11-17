@@ -1,7 +1,7 @@
 close all; clear; clc;
 addpath('plotting');
 
-results_folder = 'results/subSample=0.200000.sampleMode=uniform.percSamples=0.020000';
+results_folder = 'results/subSample=0.200000.sampleMode=grid.percSamples=0.010000';
 
 %% Create the video
 outputVideo = VideoWriter(fullfile('videos', 'output.avi'));

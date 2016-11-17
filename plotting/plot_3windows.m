@@ -36,7 +36,7 @@ scatter3(X_sample, Y_sample, results.depth(results.samples), 2, results.depth(re
 view(0,-90)
 % axis image; 
 axis off; 
-title('Sparse Measurements')
+title('Sparse Depth Measurements')
 
 h=subplot(133); 
 p = get(h, 'pos');
