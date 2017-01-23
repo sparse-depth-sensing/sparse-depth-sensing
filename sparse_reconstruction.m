@@ -1,5 +1,5 @@
-function results = sparse_reconstruction(img_ID, settings);
-% This is the main procedure for sparse depth reconstruction. We load depth
+function results = sparse_reconstruction(DATASET, img_ID, settings);
+% This is the main procedure for sparse depth reconstruction. We  depth
 % images from the data folder, create random depth measurements (depending on 
 % the "settings" structure array), reconstruct the depth images and
 % visualize the results
@@ -23,7 +23,7 @@ function results = sparse_reconstruction(img_ID, settings);
 %% Load images and preprocessing of data
 disp('Loading data..')
 % the depth images are mapped from [0-10m] to [0, 255]
-[ depth, rgb ] = load_image(img_ID);
+[ depth, rgb ] = load_image(DATASET, img_ID);
 if size(depth, 1) == 0  % file does not exist
     warning(['File ', num2str(img_ID), ' does not exist. Skipped.'])
     results = [];
@@ -94,6 +94,8 @@ axis image; axis off;
 title(['naive (err=', num2str(sprintf('%.2f', naive_error)), 'm)'])
 drawnow
 
+% figure(2);
+
 %% Saving results
 results.depth = depth;
 results.rgb = rgb;
@@ -109,7 +111,7 @@ results.Znaive = Znaive;
 results.naive_error = naive_error;
 
 results.time_l1 = time_l1;
-results.time_naive = time_naive
+results.time_naive = time_naive;
 
 
 end

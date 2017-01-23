@@ -24,7 +24,7 @@ indices = find(vec(Iedge) > 0);
 
 if settings.isDebug
     edge_mask = (Iedge == 0);
-    figure;
+    figure(3);
     subplot(221); imshow(depth,'InitialMagnification',300); title('Original Depth');
     subplot(222); imshow(rgb,'InitialMagnification',300); title('Original RGB');
     % subplot(223); imshow(Igray,'InitialMagnification',300); title('Channel');

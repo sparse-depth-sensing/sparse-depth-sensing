@@ -2,11 +2,12 @@ close all; clear; clc;
 addpath('lib')
 
 %% Settings
-settings.subSample = 0.2;         % subsample original image, to reduce its size
+DATASET = 'zed';         % 'zed' or 'gazebo'
+settings.subSample = 0.4;         % subsample original image, to reduce its size
 settings.isDebug = false;         % show debug information if true
 
-settings.sampleMode = 'grid';  % uniform, rgb_edges, grid
-settings.percSamples = 0.01;      % percentage of uniform random samples used, if sampleMode == uniform
+settings.sampleMode = 'uniform';      % uniform, rgb_edges, grid
+settings.percSamples = 0.005;      % percentage of uniform random samples used, if sampleMode == uniform
 
 settings.doAddNeighbors = true;   % set to true if neighbors of samples are also included
 settings.useDiagonalTerm = true;  % minimize the diagonal 2nd-derivative term
@@ -24,8 +25,8 @@ try
 end
 
 %% Create folder for saving results
-output_folder = sprintf('results/subSample=%f.sampleMode=%s.percSamples=%f', ...
-    settings.subSample, settings.sampleMode, settings.percSamples);
+output_folder = sprintf('results/%s/subSample=%f.sampleMode=%s.percSamples=%f', ...
+    DATASET, settings.subSample, settings.sampleMode, settings.percSamples);
 mkdir(output_folder);
 
 %% Loop over all data
@@ -38,7 +39,7 @@ for img_ID = 375 : 5: 1400
         disp('File already exists. Skip this one.')
         continue;
     else
-        results = sparse_reconstruction(img_ID, settings);
+        results = sparse_reconstruction(DATASET, img_ID, settings);
         save(results_filename, 'results');
     end
 end

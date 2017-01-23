@@ -15,11 +15,12 @@ switch settings.sampleMode
         K = round(N * settings.percSamples); % number of measurements
         samples = randperm(N, K);
     case 'grid'
-        K = round(N * settings.percSamples); % number of measurements
-        colSub = 1 : floor(width / sqrt(K)) : width;
-        rowSub = 1 : floor(height / sqrt(K)) : height;
+        colStep = floor(1 / sqrt(settings.percSamples));
+        rowStep = floor(1 / sqrt(settings.percSamples));
+        colSub = floor(colStep/2) : colStep : width;
+        rowSub = floor(rowStep/2) : rowStep : height;
         idxSub = combvec(rowSub, colSub);
-        samples = [uint16(sub2ind(size(depth), idxSub(1,:), idxSub(2,:)))]';
+        samples = [uint32(sub2ind(size(depth), idxSub(1,:), idxSub(2,:)))]';
     otherwise
         error('sampleMode selection incorrect.')
 end

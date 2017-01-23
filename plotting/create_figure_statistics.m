@@ -4,21 +4,25 @@ addpath('../results')
 
 %% Settings
 settings.subSample = 0.2;         % subsample original image, to reduce its size
-settings.sampleMode = 'depth_edges';  % uniform, rgb_edges, depth_edges
+settings.sampleMode = 'rgb_edges';  % uniform, rgb_edges, depth_edges
 settings.percEdges = 1;           % percentage of edge samples used, if sampleMode == rgb_edges
-
+DATASET = 'gazebo';
 %% Plot settings
 figure_position = [50, 50, 900, 700];
 dim = 24;
 linewidth = 3;
 
 %% Load result folder
-result_folder = sprintf('../results/subSample=%f.sampleMode=%s.percSamples=%f', ...
-    settings.subSample, settings.sampleMode, settings.percEdges);
+result_folder = sprintf('../results/%s/subSample=%f.sampleMode=%s.percSamples=%f', ...
+    DATASET, settings.subSample, settings.sampleMode, settings.percEdges);
 addpath(result_folder);
 
 %% Create data holder
-ID_array = 375 : 1: 1400;
+if strcmp(DATASET, 'zed')
+    ID_array = 375 : 1: 1400;
+elseif strcmp(DATASET, 'gazebo')
+    ID_array = 1:23;
+end
 N = length(ID_array);
 l1_error_array = zeros(N, 1);
 naive_error_array = zeros(N, 1);
