@@ -5,13 +5,17 @@ sparse-depth-sensing
 This repository contains MATLAB codes and data for sparse depth sensing, the problem of dense depth image reconstruction from very limited amount of measurements. Please refer to [our paper](http://www.mit.edu/~fcma/publications/Ma.Carlone.IROS16.pdf) for more details.
 
 ## Installation
- - Please install [CVX](http://cvxr.com/cvx/) before running our codes. CVX is a Matlab-based modeling system for convex optimization, which is being utilized in our algorithm for solving l1 optimizatiion problems. We highly recommend obtaining an [academic license](http://cvxr.com/cvx/academic/) for the most optimized performance.
+ - The code is self-contained. No installation is required.
+ - However, if you are interested in trying out a differnet solver [CVX](http://cvxr.com/cvx/), please download it from this [link](http://cvxr.com/cvx/download/) and follow the installation instructions there. CVX is a Matlab-based modeling system for convex optimization and it has slight higher accuracy than our fast solver NESTA. We recommend obtaining an [academic license](http://cvxr.com/cvx/academic/) for the most optimized performance.
 
 ## Usage
- - run `example.m` for a simple demo of the reconstruction algorithm.
+ - run `demo_single_frame.m` for a simple demo of the reconstruction algorithm on each single frame of depth images.
+ - run `demo_multi_frame.m` for a simple demo of the reconstruction algorithm on samples collected across multiple frames.
 
 ## Data
-The `data/zed` folder contains both rgb images and depth images (scaled to 0-255) collected from the [ZED Stereo Camera](https://www.stereolabs.com/).
+The `data` folder contains two datasets, including
+ - ZED: rgb images and depth images collected from the [ZED Stereo Camera](https://www.stereolabs.com/).
+ - lids_floor6: rgb and depth images collected from the Kinect sensor, along with odometry information obtained from a odometer.
 
 ## Citing Sparse Depth Sensing
 
