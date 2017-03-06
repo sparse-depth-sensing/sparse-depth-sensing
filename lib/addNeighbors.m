@@ -13,7 +13,7 @@ for i = 1:length(corners)
                 
                 % add the neighbor, if it is not already in the sample set
                 if ismember(newSample, samples) == 0 
-                    samples = [samples newSample];
+                    samples = [samples; newSample];
                 end
             end
         end

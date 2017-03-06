@@ -3,7 +3,7 @@ function [H,V] = createFiniteDiff2(Nx,Ny)
 % First order finite difference operator
 % For an Nx x Ny image Z:
 % Z*H returns the 2nd order difference in the horizontal direction
-% V*H returns the 2nd order difference) in the vertical direction
+% H*V returns the 2nd order difference) in the vertical direction
 %
 % NOTE: If called with a single input Nx and output argument returns V
 % which is the 2nd order difference operator to be applied to a vector of
