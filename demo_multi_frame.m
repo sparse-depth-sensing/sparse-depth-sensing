@@ -2,7 +2,7 @@ close all; clear; clc
 addpath(genpath('lib'))
 
 %% Choose dataset
-settings.dataset = 'ZED';   % choose either ZED or lids_floor6
+settings.dataset = 'lids_floor6';   % only lids_floor6 contains odometry information
 
 %% Create settings for the demo
 createSettings
@@ -18,17 +18,19 @@ settings.use_slope_cartesian_noDiag = false;
 % settings for sampling
 settings.subSample = 0.2;          % subsample original image to reduce its size
 settings.percSamples = 0.01;       % perceptage of samples relative to image size
-settings.sampleMode = 'uniform';   % choose from 'uniform', 'harris-feature', 'regular-grid'
+settings.sampleMode = 'regular-grid';   % choose from 'uniform', 'harris-feature', 'regular-grid'
 settings.doAddNeighbors = false;   % set to true, if we want to sample neighboring pixels
+settings.window_size = 5;          % size of the temporal window
 
 %% Start the loop
 num_data = getNumberOfImages(settings);
-for img_ID = 1 : 5 : num_data
+for img_ID = 1 : 5 : num_data-settings.window_size+1
     disp('****************************************************************')
-    disp(sprintf('Image ID : %3d', img_ID))
-    [results, ~] = reconstruct_single_frame(img_ID, settings);
+    indices = img_ID : img_ID+settings.window_size-1;
+    disp(sprintf('Temporal Window : %d to %d', img_ID, img_ID+settings.window_size-1))
+    results = reconstruct_multi_frame(indices, settings);
     if settings.show_debug_info
-        disp(sprintf(' --- # of samples = %3d, percentage = %.2f%%', ...
-            results.K, 100*results.K/length(results.depth(:))))
+        disp(sprintf(' across %d frames: total # of samples = %3d, percentage = %.2f%%', ...
+            settings.window_size, results.K, 100*results.K/length(results.depth(:))))
     end
 end

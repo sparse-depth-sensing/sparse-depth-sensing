@@ -138,29 +138,26 @@ results.K = K;
 if settings.show_debug_info    
     figure(2);
 
-    subplot(221); 
-    display_depth_image( depth, 'Ground Truth Depth' )
-    
-    
-    subplot(222); 
-    display_depth_image( img_sample, 'Input (Samples)' );
+    subplot(231); imshow(rgb); title('RGB');
+    subplot(232); display_depth_image( depth, settings, 'Ground Truth Depth' )
+    subplot(234); display_depth_image( img_sample, settings, 'Input (Samples)' );
     
     if settings.use_naive  
-        subplot(223);
+        subplot(235);
         titleString = {'naive', ['(avg error=', sprintf('%.2g', 100*results.naive.error.euclidean), 'cm)']};
-        display_depth_image( results.naive.depth_rec, titleString );  
+        display_depth_image( results.naive.depth_rec, settings, titleString );  
     end
 
-    subplot(224); 
+    subplot(236); 
     if settings.use_slope_perspective_diag
         titleString = {'L1-diag', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_diag.error.euclidean), 'cm)']};
-        display_depth_image( results.slope_perspective_diag.depth_rec, titleString );
+        display_depth_image( results.slope_perspective_diag.depth_rec, settings, titleString );
     elseif settings.use_slope_perspective_noDiag
         titleString = {'L1', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_noDiag.error.euclidean), 'cm)']};
-        display_depth_image( results.slope_perspective_noDiag.depth_rec, titleString );
+        display_depth_image( results.slope_perspective_noDiag.depth_rec, settings, titleString );
     elseif settings.use_slope_cartesian_noDiag
         titleString = {'L1-cart', ['(avg error=', sprintf('%.2g', 100*results.slope_cartesian_noDiag.error.euclidean), 'cm)']};
-        display_depth_image( results.slope_cartesian_noDiag.depth_rec, titleString );
+        display_depth_image( results.slope_cartesian_noDiag.depth_rec, settings, titleString );
     end
     drawnow
 end
