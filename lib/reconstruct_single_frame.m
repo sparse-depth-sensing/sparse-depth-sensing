@@ -82,7 +82,7 @@ if settings.show_figures
     figure(fig1);
     subplot(222)
     pcshow(pc_samples, 'MarkerSize', settings.markersize); xlabel('x'); ylabel('y'); zlabel('z'); 
-    title('Samples')
+    title('Input (Samples)')
 end
 
 %% create (possibly noisy) measurements
@@ -145,24 +145,24 @@ if settings.show_debug_info
     
     subplot(222); 
     colormap('parula'); imagesc(img_sample); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-    title('Samples');
+    title('Input (Samples)');
     
     if settings.use_naive  
         fig=subplot(223);
         colormap('parula'); imagesc(results.naive.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'Naive Interpolation', ['(Error=', sprintf('%.2g', 100*results.naive.error.euclidean), 'cm)']})
+        title({'naive interpolation', ['(avg error=', sprintf('%.2g', 100*results.naive.error.euclidean), 'cm)']})
     end
 
     subplot(224); 
     colormap('parula');
     if settings.use_slope_perspective_diag
         imagesc(results.slope_perspective_diag.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'Slope Perspective', ['(Error=', sprintf('%.2g', 100*results.slope_perspective_diag.error.euclidean), 'cm)']})
+        title({'L1-diag', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_diag.error.euclidean), 'cm)']})
     elseif settings.use_slope_perspective_noDiag
         imagesc(results.slope_perspective_noDiag.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'Slope Perspective', ['(Error=', sprintf('%.2g', 100*results.slope_perspective_noDiag.error.euclidean), 'cm)']})
+        title({'L1', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_noDiag.error.euclidean), 'cm)']})
     elseif settings.use_slope_cartesian_noDiag
         imagesc(results.slope_cartesian_noDiag.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'Slope Cartesian', ['(Error=', sprintf('%.2g', 100*results.slope_cartesian_noDiag.error.euclidean), 'cm)']})
+        title({'L1-cart', ['(avg error=', sprintf('%.2g', 100*results.slope_cartesian_noDiag.error.euclidean), 'cm)']})
     end
 end

@@ -15,7 +15,7 @@ if strcmp(solver, 'slope_cartesian_noDiag')
             sampling_matrix, measured_vector, pc_truth.Location(:, [2, 3]), ...
             settings, samples, initial_guess);
     time = toc;
-    solver_title = 'l1-cart-noDiag';
+    solver_title = 'L1-cart';
     
     % reconstruct the point cloud
     xyz_slope_cartesian = pc_truth.Location;
@@ -35,15 +35,15 @@ else
     switch solver
         case 'naive'
             x = linearInterpolationOnImage( depth, samples, measured_vector );
-            solver_title = 'naive';
+            solver_title = 'naive interpolation';
         case 'slope_perspective_diag'
             x = l1ReconstructionOnImage( height, width, ...
                 sampling_matrix, measured_vector, settings, samples, initial_guess);
-            solver_title = 'l1-pers-diag';
+            solver_title = 'L1-diag';
         case 'slope_perspective_noDiag'
             x = l1ReconstructionOnImage( height, width, ...
                 sampling_matrix, measured_vector, settings, samples, initial_guess);
-            solver_title = 'l1-pers-noDiag';
+            solver_title = 'L1';
     end
     time = toc;
     
@@ -68,7 +68,7 @@ if settings.show_figures
     figure(figHandle);
     subplot(subplot_id);
     pcshow(pc_rec_noblack, 'MarkerSize', settings.markersize); xlabel('x'); ylabel('y'); zlabel('z'); 
-    title({solver_title, ['(Error=', sprintf('%.2g', 100*error.euclidean), 'cm)']})
+    title({solver_title, ['(avg error=', sprintf('%.2g', 100*error.euclidean), 'cm)']})
     drawnow;
 end
 

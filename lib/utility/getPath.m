@@ -3,7 +3,7 @@ function [ targetPath ] = getPath( targetFolder, settings )
 %   Detailed explanation goes here
 
 activeFunctionFilename = mfilename('fullpath');
-rootPath = getParentFolder(activeFunctionFilename, 2);
+rootPath = getParentFolder(activeFunctionFilename, 3);
 
 if nargin > 1
     flagTemporal = isfield(settings, 'windowSize');

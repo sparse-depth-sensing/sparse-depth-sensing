@@ -23,6 +23,6 @@ settings.doAddNeighbors = true;    % sample neighboring pixels
 
 %% Start the loop
 num_data = getNumberOfImages(settings);
-for img_ID = 1 : 5 : num_data
+for img_ID = 1 : 50 : num_data
     [results, settings] = reconstruct_single_frame(img_ID, settings);
 end
