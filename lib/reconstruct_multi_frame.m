@@ -3,7 +3,7 @@ addpath(genpath('lib'))
 
 if nargin < 2    
     close all; clear; clc;
-    settings.dataset = 'lab1';   % test_data, lids_floor6, lab1, ZED, pwlinear_nbCorners=10
+    settings.dataset = 'lids_floor6';   
 
     createSettings
     

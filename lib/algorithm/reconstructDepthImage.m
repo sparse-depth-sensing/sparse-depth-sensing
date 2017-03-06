@@ -4,9 +4,9 @@ function [ results ] = reconstructDepthImage( solver, settings, ...
 %reconstructDepthImage A wrapper for all solvers, to avoid repeated codes
 %   Detailed explanation goes here
 
-if settings.show_debug_info
-    disp('************************************')
-end
+% if settings.show_debug_info
+%     disp('')
+% end
 
 %% slope_cartesian_noDiag generates a list of x coordiantes
 if strcmp(solver, 'slope_cartesian_noDiag')
@@ -35,7 +35,7 @@ else
     switch solver
         case 'naive'
             x = linearInterpolationOnImage( depth, samples, measured_vector );
-            solver_title = 'naive interpolation';
+            solver_title = 'naive';
         case 'slope_perspective_diag'
             x = l1ReconstructionOnImage( height, width, ...
                 sampling_matrix, measured_vector, settings, samples, initial_guess);
@@ -60,15 +60,14 @@ end
 error = computeErrorPointcloud(pc_rec.Location, pc_truth.Location, settings); 
 
 if settings.show_debug_info
-    disp([solver, ': time = ', num2str(time), 's'])
-    disp([solver, ': error = ', sprintf('%.2g', 100*error.euclidean), 'cm'])
+    disp(sprintf(' --- %8s: time = %.5gms, error = %.3gcm', solver_title, 1000*time, 100*error.euclidean))
 end
 
-if settings.show_figures
+if settings.show_pointcloud
     figure(figHandle);
     subplot(subplot_id);
     pcshow(pc_rec_noblack, 'MarkerSize', settings.markersize); xlabel('x'); ylabel('y'); zlabel('z'); 
-    title({solver_title, ['(avg error=', sprintf('%.2g', 100*error.euclidean), 'cm)']})
+    title({solver_title, ['(avg error=', sprintf('%.3g', 100*error.euclidean), 'cm)']})
     drawnow;
 end
 

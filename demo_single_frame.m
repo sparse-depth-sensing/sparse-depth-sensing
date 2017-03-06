@@ -19,10 +19,16 @@ settings.use_slope_cartesian_noDiag = false;
 settings.subSample = 0.2;          % subsample original image to reduce its size
 settings.percSamples = 0.01;       % perceptage of samples relative to image size
 settings.sampleMode = 'uniform';   % choose from 'uniform', 'harris-feature', 'regular-grid'
-settings.doAddNeighbors = true;    % sample neighboring pixels
+settings.doAddNeighbors = false;   % set to true, if we want to sample neighboring pixels
 
 %% Start the loop
 num_data = getNumberOfImages(settings);
 for img_ID = 1 : 50 : num_data
-    [results, settings] = reconstruct_single_frame(img_ID, settings);
+    disp('****************************************************************')
+    disp(sprintf('Image ID : %3d', img_ID))
+    [results, ~] = reconstruct_single_frame(img_ID, settings);
+    if settings.show_debug_info
+        disp(sprintf(' --- # of samples = %3d, percentage = %.2f%%', ...
+            results.K, 100*results.K/length(results.depth(:))))
+    end
 end

@@ -44,12 +44,12 @@ pc_truth_orig = depth2pc(depth_orig, rgb, odometry, settings, false);
 pc_truth = depth2pc(depth, rgb, odometry, settings, false);
 pc_truth_noblack = depth2pc(depth, rgb, odometry, settings, true);
 
-if settings.show_figures
+if settings.show_pointcloud
     fig1 = figure(1);
     
     subplot(221)
     pcshow(pc_truth_noblack, 'MarkerSize', settings.markersize); xlabel('x'); ylabel('y'); zlabel('z'); title('Ground Truth'); 
-else, settings
+else
     fig1 = [];
 end
 
@@ -78,7 +78,7 @@ img_sample(samples) = 255 * xGT(samples);
 [pc_samples] = depth2pc(img_sample, rgb, odometry, settings, false);
 
 % visualization
-if settings.show_figures
+if settings.show_pointcloud
     figure(fig1);
     subplot(222)
     pcshow(pc_samples, 'MarkerSize', settings.markersize); xlabel('x'); ylabel('y'); zlabel('z'); 
@@ -139,30 +139,28 @@ if settings.show_debug_info
     figure(2);
 
     subplot(221); 
-    colormap('parula'); imagesc(depth); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-    title('Ground Truth Depth');
+    display_depth_image( depth, 'Ground Truth Depth' )
     
     
     subplot(222); 
-    colormap('parula'); imagesc(img_sample); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-    title('Input (Samples)');
+    display_depth_image( img_sample, 'Input (Samples)' );
     
     if settings.use_naive  
-        fig=subplot(223);
-        colormap('parula'); imagesc(results.naive.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'naive interpolation', ['(avg error=', sprintf('%.2g', 100*results.naive.error.euclidean), 'cm)']})
+        subplot(223);
+        titleString = {'naive', ['(avg error=', sprintf('%.2g', 100*results.naive.error.euclidean), 'cm)']};
+        display_depth_image( results.naive.depth_rec, titleString );  
     end
 
     subplot(224); 
-    colormap('parula');
     if settings.use_slope_perspective_diag
-        imagesc(results.slope_perspective_diag.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'L1-diag', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_diag.error.euclidean), 'cm)']})
+        titleString = {'L1-diag', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_diag.error.euclidean), 'cm)']};
+        display_depth_image( results.slope_perspective_diag.depth_rec, titleString );
     elseif settings.use_slope_perspective_noDiag
-        imagesc(results.slope_perspective_noDiag.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'L1', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_noDiag.error.euclidean), 'cm)']})
+        titleString = {'L1', ['(avg error=', sprintf('%.2g', 100*results.slope_perspective_noDiag.error.euclidean), 'cm)']};
+        display_depth_image( results.slope_perspective_noDiag.depth_rec, titleString );
     elseif settings.use_slope_cartesian_noDiag
-        imagesc(results.slope_cartesian_noDiag.depth_rec); set(gca,'XTick',[]); set(gca,'YTick',[]); 
-        title({'L1-cart', ['(avg error=', sprintf('%.2g', 100*results.slope_cartesian_noDiag.error.euclidean), 'cm)']})
+        titleString = {'L1-cart', ['(avg error=', sprintf('%.2g', 100*results.slope_cartesian_noDiag.error.euclidean), 'cm)']};
+        display_depth_image( results.slope_cartesian_noDiag.depth_rec, titleString );
     end
+    drawnow
 end

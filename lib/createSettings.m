@@ -5,6 +5,10 @@ if ~isfield(settings, 'show_figures')
     settings.show_figures = true; 
 end
 
+if ~isfield(settings, 'show_pointcloud')
+    settings.show_pointcloud = false; 
+end
+
 if ~isfield(settings, 'show_debug_info')
     settings.show_debug_info = true;       
 end
