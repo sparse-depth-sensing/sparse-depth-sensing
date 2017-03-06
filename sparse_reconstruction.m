@@ -59,7 +59,7 @@ tic
 Znaive = naive( depth, samples, y, settings );
 time_naive = toc;
 naive_error = norm(vec(Znaive) - zGT, 1) / N / 255 * 10; % avg error in meters
-disp(['naive: average error = ', num2str(naive_error)])
+disp(sprintf('naive interpolation: average error = %.2gcm', 100*naive_error))
 
 % our l1 reconstruction approach
 tic
@@ -67,7 +67,7 @@ z = l1_reconstruction( height, width, R, y, settings);
 time_l1 = toc;
 rec_depth = reshape(z, height, width);
 rec_error = norm(z - zGT, 1) / N / 255 * 10;    % avg error in meters
-disp(['l1 reconstruction: average error = ', num2str(rec_error)])
+disp(sprintf('l1 reconstruction: average error = %.2gcm', 100*rec_error))
 
 %% Visualization
 sample_mask = zeros(size(depth));

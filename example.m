@@ -3,7 +3,7 @@ addpath('lib')
 
 %% Settings
 DATASET = 'zed';         % 'zed' or 'gazebo'
-settings.subSample = 0.4;         % subsample original image, to reduce its size
+settings.subSample = 0.2;         % subsample original image, to reduce its size
 settings.isDebug = false;         % show debug information if true
 
 settings.sampleMode = 'uniform';      % uniform, rgb_edges, grid
