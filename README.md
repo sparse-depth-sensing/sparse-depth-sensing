@@ -2,10 +2,11 @@ sparse-depth-sensing
 ==============
 
 ## Introduction
-This repository contains MATLAB codes and data for sparse depth sensing, the problem of dense depth image reconstruction from very limited amount of measurements. Please refer to our paper [*Sparse Depth Sensing for Resource-Constrained Robots*](https://arxiv.org/abs/1703.01398) for more details.
+This repository contains MATLAB codes and data for sparse depth sensing, the problem of dense depth image reconstruction from very limited amount of measurements. Please refer to our paper [*Sparse Depth Sensing for Resource-Constrained Robots*](https://arxiv.org/abs/1703.01398) and click on the [YouTube video](https://www.youtube.com/watch?v=vE56akCGeJQ) below for more details.
+[![Demo CountPages alpha](https://j.gifs.com/k5N49X.gif)](https://www.youtube.com/watch?v=vE56akCGeJQ)
 
 ## Installation
- - The code is self-contained. No installation is required.
+ - The code is self-contained. **No installation required**.
  - However, if you are interested in trying out a differnet solver [CVX](http://cvxr.com/cvx/), please download it from this [link](http://cvxr.com/cvx/download/) and follow the installation instructions there. CVX is a Matlab-based modeling system for convex optimization and it has slightly higher accuracy than our fast solver NESTA. We recommend obtaining an [academic license](http://cvxr.com/cvx/academic/) for the most optimized performance.
 
 ## Usage
