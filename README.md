@@ -2,7 +2,7 @@ sparse-depth-sensing
 ==============
 
 ## Introduction
-This repository contains MATLAB codes and data for sparse depth sensing, the problem of dense depth image reconstruction from very limited amount of measurements. Please refer to [our paper](http://www.mit.edu/~fcma/publications/Ma.Carlone.IROS16.pdf) for more details.
+This repository contains MATLAB codes and data for sparse depth sensing, the problem of dense depth image reconstruction from very limited amount of measurements. Please refer to our paper [*Sparse Depth Sensing for Resource-Constrained Robots*](https://arxiv.org/abs/1703.01398) for more details.
 
 ## Installation
  - The code is self-contained. No installation is required.
@@ -11,6 +11,14 @@ This repository contains MATLAB codes and data for sparse depth sensing, the pro
 ## Usage
  - run `demo_single_frame.m` for a simple demo of the reconstruction algorithm on each single frame of depth images.
  - run `demo_multi_frame.m` for a simple demo of the reconstruction algorithm on samples collected across multiple frames.
+
+## Code
+The code is structured as follows.
+ - `lib/algorithm` contains the core code, i.e., the formulation of our optimization problem (in `l1ReconstructionOnImage.m`).
+ - `lib/nesta_solver` is the implementation of the NESTA fast solver tailored to our problem.
+ - `lib/geometry` handles all geometry related implementations (e.g., rigid body transformation, image projection).
+ - `lib/sampling` provides functions for create a small set of measurements from the ground truth depth image.
+ - `lib/utility` contains other helper functions.
 
 ## Data
 The `data` folder contains two datasets, including
