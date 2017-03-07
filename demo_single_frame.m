@@ -11,9 +11,9 @@ createSettings
 settings.solver = 'nesta';         % choose either 'cvx' or 'nesta'
 
 % settings for objective functions (algorithms)
-settings.use_slope_perspective_noDiag = false;
-settings.use_slope_perspective_diag = true;
-settings.use_slope_cartesian_noDiag = false;
+settings.use_L1 = false;
+settings.use_L1_diag = true;
+settings.use_L1_cart = false;
 
 % settings for sampling
 settings.subSample = 0.2;          % subsample original image to reduce its size

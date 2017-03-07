@@ -9,13 +9,12 @@ function [ results ] = reconstructDepthImage( solver, settings, ...
 % end
 
 %% slope_cartesian_noDiag generates a list of x coordiantes
-if strcmp(solver, 'slope_cartesian_noDiag')
+if strcmp(solver, 'L1-cart')
     tic
     x_slope_cartesian = l1ReconstructionOnPointcloud( height, width, ...
             sampling_matrix, measured_vector, pc_truth.Location(:, [2, 3]), ...
             settings, samples, initial_guess);
     time = toc;
-    solver_title = 'L1-cart';
     
     % reconstruct the point cloud
     xyz_slope_cartesian = pc_truth.Location;
@@ -35,15 +34,12 @@ else
     switch solver
         case 'naive'
             x = linearInterpolationOnImage( depth, samples, measured_vector );
-            solver_title = 'naive';
-        case 'slope_perspective_diag'
+        case 'L1-diag'
             x = l1ReconstructionOnImage( height, width, ...
                 sampling_matrix, measured_vector, settings, samples, initial_guess);
-            solver_title = 'L1-diag';
-        case 'slope_perspective_noDiag'
+        case 'L1'
             x = l1ReconstructionOnImage( height, width, ...
                 sampling_matrix, measured_vector, settings, samples, initial_guess);
-            solver_title = 'L1';
     end
     time = toc;
     
@@ -60,14 +56,14 @@ end
 error = computeErrorPointcloud(pc_rec.Location, pc_truth.Location, settings); 
 
 if settings.show_debug_info
-    disp(sprintf(' --- %8s: time = %.5gms, error = %.3gcm', solver_title, 1000*time, 100*error.euclidean))
+    disp(sprintf(' --- %8s: time = %.5gms, error = %.3gcm', solver, 1000*time, 100*error.euclidean))
 end
 
 if settings.show_pointcloud
     figure(figHandle);
     subplot(subplot_id);
     pcshow(pc_rec_noblack, 'MarkerSize', settings.markersize); xlabel('x'); ylabel('y'); zlabel('z'); 
-    title({solver_title, ['(avg error=', sprintf('%.3g', 100*error.euclidean), 'cm)']})
+    title({solver, ['(avg error=', sprintf('%.3g', 100*error.euclidean), 'cm)']})
     drawnow;
 end
 

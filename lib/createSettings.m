@@ -87,16 +87,16 @@ if ~isfield(settings, 'use_naive')
     settings.use_naive = true;
 end
 
-if ~isfield(settings, 'use_slope_perspective_noDiag')
-    settings.use_slope_perspective_noDiag = true;
+if ~isfield(settings, 'use_L1')
+    settings.use_L1 = true;
 end
 
-if ~isfield(settings, 'use_slope_perspective_diag')
-    settings.use_slope_perspective_diag = true;
+if ~isfield(settings, 'use_L1_diag')
+    settings.use_L1_diag = true;
 end
 
-if ~isfield(settings, 'use_slope_cartesian_noDiag')
-    settings.use_slope_cartesian_noDiag = true;
+if ~isfield(settings, 'use_L1_cart')
+    settings.use_L1_cart = true;
 end
 
 

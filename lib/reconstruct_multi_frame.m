@@ -8,9 +8,9 @@ if nargin < 2
     createSettings
     
     settings.solver = 'nesta';
-    settings.use_slope_perspective_noDiag = false;
-    settings.use_slope_perspective_diag = true;
-    settings.use_slope_cartesian_noDiag = false;
+    settings.use_L1 = false;
+    settings.use_L1_diag = true;
+    settings.use_L1_cart = false;
     settings.subSample = 0.2;               % subsample original image, to reduce its size
     settings.percSamples = 0.01;
     settings.sampleMode = 'regular-grid';   % 'harris-feature', 'regular-grid'
@@ -131,25 +131,25 @@ if settings.use_naive
         depth_gt, rgb_gt, odometry_last, pc_last_orig, fig1, 223);
 end
 
-%% Slope_Perspective_noDiag
-if settings.use_slope_perspective_noDiag
+%% L1
+if settings.use_L1
     settings.useDiagonalTerm = false;
-    results.slope_perspective_noDiag = reconstructDepthImage( 'slope_perspective_noDiag', settings, ...
+    results.L1 = reconstructDepthImage( 'L1', settings, ...
         height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
         depth_gt, rgb_gt, odometry_last, pc_last_orig, fig1, 224);
 end
 
-%% Slope_Perspective_diag 
-if settings.use_slope_perspective_diag
+%% L1_diag 
+if settings.use_L1_diag
     settings.useDiagonalTerm = true;
-    results.slope_perspective_diag = reconstructDepthImage( 'slope_perspective_diag', settings, ...
+    results.L1_diag = reconstructDepthImage( 'L1-diag', settings, ...
         height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
         depth_gt, rgb_gt, odometry_last, pc_last_orig, fig1, 224);
 end
 
-%% Slope_Cartesian_noDiag 
-if settings.use_slope_cartesian_noDiag
-    results.slope_cartesian_noDiag = reconstructDepthImage( 'slope_cartesian_noDiag', settings, ...
+%% L1_cart 
+if settings.use_L1_cart
+    results.L1_cart = reconstructDepthImage( 'L1-cart', settings, ...
         height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
         depth_gt, rgb_gt, odometry_last, pc_last_orig, fig1, 224);
 end
@@ -168,18 +168,18 @@ if settings.show_figures
         display_depth_image(results.naive.depth_rec, settings, titleString);
     end
 
-    if settings.use_slope_perspective_diag
+    if settings.use_L1_diag
         subplot(236); 
-        titleString = {'L1-diag', ['(error=', sprintf('%.2g', 100*results.slope_perspective_diag.error.euclidean), 'cm)']};
-        display_depth_image(results.slope_perspective_diag.depth_rec, settings, titleString);
-    elseif settings.use_slope_perspective_noDiag
+        titleString = {'L1-diag', ['(error=', sprintf('%.2g', 100*results.L1_diag.error.euclidean), 'cm)']};
+        display_depth_image(results.L1_diag.depth_rec, settings, titleString);
+    elseif settings.L1
         subplot(236); 
-        titleString = {'L1', ['(error=', sprintf('%.2g', 100*results.slope_perspective_noDiag.error.euclidean), 'cm)']};
-        display_depth_image(results.slope_perspective_noDiag.depth_rec, settings, titleString);
+        titleString = {'L1', ['(error=', sprintf('%.2g', 100*results.L1.error.euclidean), 'cm)']};
+        display_depth_image(results.L1.depth_rec, settings, titleString);
     elseif settings.use_slope_cartesian_noDiag
         subplot(236); 
-        titleString = {'L1-cart', ['(error=', sprintf('%.2g', 100*results.slope_cartesian_noDiag.error.euclidean), 'cm)']}
-        display_depth_image(results.slope_cartesian_noDiag.depth_rec, settings, titleString);
+        titleString = {'L1-cart', ['(error=', sprintf('%.2g', 100*results.L1_cart.error.euclidean), 'cm)']}
+        display_depth_image(results.L1_cart.depth_rec, settings, titleString);
     end
     drawnow
 end
