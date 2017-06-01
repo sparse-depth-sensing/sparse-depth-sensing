@@ -37,6 +37,15 @@ If you use our code in your research, please consider citing:
 	  year={2017}
 	}
 
+	@inproceedings{ma2016sparse,
+	  title={Sparse sensing for resource-constrained depth reconstruction},
+	  author={Ma, Fangchang and Carlone, Luca and Ayaz, Ulas and Karaman, Sertac},
+	  booktitle={Intelligent Robots and Systems (IROS), 2016 IEEE/RSJ International Conference on},
+	  pages={96--103},
+	  year={2016},
+	  organization={IEEE}
+	}
+
 ## Contact
 
 Please email Fangchang Ma (fcma@mit.edu) for problems and bugs. Thanks!
