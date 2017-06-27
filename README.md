@@ -6,7 +6,7 @@ This repository contains MATLAB codes and data for sparse depth sensing, the pro
 [![Demo CountPages alpha](https://j.gifs.com/k5N49X.gif)](https://www.youtube.com/watch?v=vE56akCGeJQ)
 
 ## Installation
- - The code is self-contained. **No installation required**.
+ - The code requires the Robotics System Toolbox in Matlab for loading our own datasets. Other than that, the code is self-contained. 
  - However, if you are interested in trying out a differnet solver [CVX](http://cvxr.com/cvx/), please download it from this [link](http://cvxr.com/cvx/download/) and follow the installation instructions there. CVX is a Matlab-based modeling system for convex optimization and it has slightly higher accuracy than our fast solver NESTA. We recommend obtaining an [academic license](http://cvxr.com/cvx/academic/) for the most optimized performance.
 
 ## Usage

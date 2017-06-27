@@ -24,11 +24,11 @@ settings.doAddNeighbors = false;   % set to true, if we want to sample neighbori
 %% Start the loop
 num_data = getNumberOfImages(settings);
 for img_ID = 1 : 5 : num_data
-    disp('****************************************************************')
-    disp(sprintf('Image ID : %3d', img_ID))
-    [results, ~] = reconstruct_single_frame(img_ID, settings);
-    if settings.show_debug_info
-        disp(sprintf(' --- # of samples = %3d, percentage = %.2f%%', ...
-            results.K, 100*results.K/length(results.depth(:))))
-    end
+  disp('****************************************************************')
+  disp(sprintf('Image ID : %3d', img_ID))
+  [results, ~] = reconstruct_single_frame(img_ID, settings);
+  if settings.show_debug_info
+    disp(sprintf(' --- # of samples = %3d, percentage = %.2f%%', ...
+      results.K, 100*results.K/length(results.depth(:))))
+  end
 end
