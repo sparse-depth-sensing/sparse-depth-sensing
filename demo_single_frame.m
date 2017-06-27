@@ -28,7 +28,7 @@ for img_ID = 1 : 5 : num_data
   disp(sprintf('Image ID : %3d', img_ID))
   [results, ~] = reconstruct_single_frame(img_ID, settings);
   if settings.show_debug_info
-    disp(sprintf(' --- # of samples = %3d, percentage = %.2f%%', ...
+    disp(sprintf(' --- samples (number=%3d, percentage=%.2g%%)', ...
       results.K, 100*results.K/length(results.depth(:))))
   end
 end

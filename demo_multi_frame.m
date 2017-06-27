@@ -30,7 +30,7 @@ for img_ID = 1 : 5 : num_data-settings.window_size+1
     disp(sprintf('Temporal Window : %d to %d', img_ID, img_ID+settings.window_size-1))
     results = reconstruct_multi_frame(indices, settings);
     if settings.show_debug_info
-        disp(sprintf(' across %d frames: total # of samples = %3d, percentage = %.2f%%', ...
+        disp(sprintf(' across %d frames: samples (number=%3d, percentage=%.2g%%)', ...
             settings.window_size, results.K, 100*results.K/length(results.depth(:))))
     end
 end
