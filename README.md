@@ -5,15 +5,20 @@ sparse-depth-sensing
 This repository contains MATLAB codes and data for sparse depth sensing, the problem of dense depth image reconstruction from very limited amount of measurements. Please refer to our paper [*Sparse Depth Sensing for Resource-Constrained Robots*](https://arxiv.org/abs/1703.01398) and click on the [YouTube video](https://www.youtube.com/watch?v=vE56akCGeJQ) below for more details.
 [![Demo CountPages alpha](https://j.gifs.com/k5N49X.gif)](https://www.youtube.com/watch?v=vE56akCGeJQ)
 
+## Requirement
+ - Matlab R2015a or later versions, including
+   - the Computer Vision System Toolbox
+   - the Robotics System Toolbox
+
 ## Installation
- - The code requires the Robotics System Toolbox in Matlab for loading our own datasets. Other than that, the code is self-contained. 
+ - The code is self-contained. **No installation required**.
  - However, if you are interested in trying out a differnet solver [CVX](http://cvxr.com/cvx/), please download it from this [link](http://cvxr.com/cvx/download/) and follow the installation instructions there. CVX is a Matlab-based modeling system for convex optimization and it has slightly higher accuracy than our fast solver NESTA. We recommend obtaining an [academic license](http://cvxr.com/cvx/academic/) for the most optimized performance.
 
 ## Usage
  - run `demo_single_frame.m` for a demo of the reconstruction algorithm on samples from each individual frame of depth images.
  - run `demo_multi_frame.m` for a demo of the reconstruction algorithm on samples collected across multiple frames, given odometry information.
 
-## Code
+## Code Structure
 The code is structured as follows.
  - `lib/algorithm` contains the core code, i.e., the formulation of our optimization problem (in `l1ReconstructionOnImage.m`).
  - `lib/nesta_solver` is the implementation of the NESTA fast solver tailored to our problem.
@@ -25,6 +30,15 @@ The code is structured as follows.
 The `data` folder contains two datasets, including
  - `ZED`: rgb images and depth images collected from the [ZED Stereo Camera](https://www.stereolabs.com/).
  - `lids_floor6`: rgb and depth images collected from the Kinect sensor, along with odometry information obtained from a odometer.
+
+## Notes
+Tested on following hosts
+ - Matlab R2017a on Windows 7 Enterprise
+ - Matlab R2016b on Ubuntu 16.04 LTS
+ - Matlab R2017a on macOS Sierra (Version 10.12.5)
+
+Future work: 
+ - add CUDA code for parallelization on GPU
 
 ## Citing Sparse Depth Sensing
 
