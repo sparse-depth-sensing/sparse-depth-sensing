@@ -33,7 +33,7 @@ else
   tic
   switch solver
     case 'naive'
-      x = linearInterpolationOnImage( depth, samples, measured_vector );
+      x = linearInterpolationOnImage( height, width, samples, measured_vector );
     case 'L1-diag'
       x = l1ReconstructionOnImage( height, width, ...
         sampling_matrix, measured_vector, settings, samples, initial_guess);

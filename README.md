@@ -17,6 +17,7 @@ This repository contains MATLAB codes and data for sparse depth sensing, the pro
 ## Usage
  - run `demo_single_frame.m` for a demo of the reconstruction algorithm on samples from each individual frame of depth images.
  - run `demo_multi_frame.m` for a demo of the reconstruction algorithm on samples collected across multiple frames, given odometry information.
+ - run `demo_middlebury.m` for a demo of the reconstruction algorithm on the Middlebury dataset.
 
 ## Code Structure
 The code is structured as follows.

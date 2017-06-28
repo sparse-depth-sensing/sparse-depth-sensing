@@ -54,7 +54,7 @@ else
   fig1 = [];
 end
 
-%% Create measurements
+%% Create random samples
 samples = createSamples( depth, rgb, settings );
 
 % if samples are not created properly
