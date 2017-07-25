@@ -1,6 +1,4 @@
 function run_dataset(dataset, settings, arrayIndices)
-% close all; clear; clc
-addpath(genpath(fullfile('..', 'lib')))
 
 %% Create folders where we save all results
 settings.dataset = dataset;

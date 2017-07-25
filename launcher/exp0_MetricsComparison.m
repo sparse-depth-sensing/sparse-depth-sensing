@@ -1,3 +1,4 @@
+addpath(genpath(fullfile('..', 'lib')))
 
 %% Create settings for the demo
 createSettings
