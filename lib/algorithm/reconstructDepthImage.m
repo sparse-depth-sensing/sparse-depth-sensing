@@ -35,11 +35,18 @@ else
     case 'naive'
       x = linearInterpolationOnImage( height, width, samples, measured_vector );
     case 'L1-diag'
+      settings.mu = 1e-3;
       x = l1ReconstructionOnImage( height, width, ...
         sampling_matrix, measured_vector, settings, samples, initial_guess);
     case 'L1'
+      settings.mu = 1e-3;
       x = l1ReconstructionOnImage( height, width, ...
         sampling_matrix, measured_vector, settings, samples, initial_guess);
+    case 'L1-inv-diag'
+      settings.mu = 2e-4;
+      x = l1ReconstructionOnImage( height, width, ...
+        sampling_matrix, measured_vector.^-1, settings, samples, initial_guess.^-1);
+      x = x.^-1;
   end
   time = toc;
   
@@ -56,7 +63,7 @@ end
 error = computeErrorPointcloud(pc_rec.Location, pc_truth.Location, settings);
 
 if settings.show_debug_info
-  disp(sprintf(' --- %8s: time=%.5gms, mae=%.3gcm, rmse=%.3gcm, psnr=%.3gdB (high is good)', ...
+  disp(sprintf(' --- %12s: time=%.5gms, mae=%.3gcm, rmse=%.3gcm, psnr=%.3gdB (high is good)', ...
     solver, 1000*time, 100*error.mae, 100*error.rmse, error.psnr))
 %   disp(sprintf(' --- %8s: time=%.5gms, mae=%.3gcm', solver, 1000*time, 100*error.euclidean))
 end

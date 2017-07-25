@@ -9,11 +9,16 @@ createSettings
 
 % settings for solver
 settings.solver = 'nesta';         % choose either 'cvx' or 'nesta'
+if strcmp(settings.solver, 'cvx')
+    cvx_solver mosek
+    cvx_save_prefs
+end
 
 % settings for objective functions (algorithms)
 settings.use_L1 = false;
 settings.use_L1_diag = true;
 settings.use_L1_cart = false;
+settings.use_L1_inv_diag = true;
 
 % settings for sampling
 settings.subSample = 0.2;          % subsample original image to reduce its size
@@ -31,4 +36,5 @@ for img_ID = 1 : 5 : num_data
     disp(sprintf(' --- samples (number=%3d, percentage=%.2g%%)', ...
       results.K, 100*results.K/length(results.depth(:))))
   end
+  pause
 end
