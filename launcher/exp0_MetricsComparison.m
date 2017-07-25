@@ -4,7 +4,7 @@ addpath(genpath(fullfile('..', 'lib')))
 createSettings
 
 % settings for solver
-settings.solver = 'nesta';         % choose either 'cvx' or 'nesta'
+settings.solver = 'cvx';         % choose either 'cvx' or 'nesta'
 if strcmp(settings.solver, 'cvx')
     cvx_solver mosek
     cvx_save_prefs

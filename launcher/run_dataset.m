@@ -36,18 +36,21 @@ for img_ID = arrayIndices
         save(pc_filename, 'results');
     end
         
-    if settings.show_debug_info
-        fprintf(' --- samples (number=%3d, percentage=%.2g%%)\n', ...
-            results.K, 100*results.K/length(results.depth(:)))
+    if isfield(results, 'K')
+        if settings.show_debug_info
+            fprintf(' --- samples (number=%3d, percentage=%.2g%%)\n', ...
+                results.K, 100*results.K/length(results.depth(:)))
+        end
+
+        if settings.use_naive, array_naive(img_ID) = results.naive; end
+        if settings.use_L1, array_L1(img_ID) = results.L1; end
+        if settings.use_L1_diag, array_L1_diag(img_ID) = results.L1_diag; end
+        if settings.use_L1_cart, array_L1_cart(img_ID) = results.L1_cart; end
+        if settings.use_L1_inv, array_L1_inv(img_ID) = results.L1_inv; end
+        if settings.use_L1_inv_diag, array_L1_inv_diag(img_ID) = results.L1_inv_diag; end
+    else
+        fprintf(' --- skipped due to no data. \n')
     end
-    
-    if settings.use_naive, array_naive(img_ID) = results.naive; end
-    if settings.use_L1, array_L1(img_ID) = results.L1; end
-    if settings.use_L1_diag, array_L1_diag(img_ID) = results.L1_diag; end
-    if settings.use_L1_cart, array_L1_cart(img_ID) = results.L1_cart; end
-    if settings.use_L1_inv, array_L1_inv(img_ID) = results.L1_inv; end
-    if settings.use_L1_inv_diag, array_L1_inv_diag(img_ID) = results.L1_inv_diag; end
-    
 %     pause
 end
 
