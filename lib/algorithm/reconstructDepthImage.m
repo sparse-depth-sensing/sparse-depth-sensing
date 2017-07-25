@@ -36,14 +36,25 @@ else
       x = linearInterpolationOnImage( height, width, samples, measured_vector );
     case 'L1-diag'
       settings.mu = 1e-3;
+      settings.useDiagonalTerm = true;
       x = l1ReconstructionOnImage( height, width, ...
         sampling_matrix, measured_vector, settings, samples, initial_guess);
     case 'L1'
       settings.mu = 1e-3;
+      settings.useDiagonalTerm = false;
       x = l1ReconstructionOnImage( height, width, ...
         sampling_matrix, measured_vector, settings, samples, initial_guess);
+    
+    %% Inverse depth models
+    case 'L1-inv'
+      settings.mu = 2e-4;
+      settings.useDiagonalTerm = false;
+      x = l1ReconstructionOnImage( height, width, ...
+        sampling_matrix, measured_vector.^-1, settings, samples, initial_guess.^-1);
+      x = x.^-1;
     case 'L1-inv-diag'
       settings.mu = 2e-4;
+      settings.useDiagonalTerm = true;
       x = l1ReconstructionOnImage( height, width, ...
         sampling_matrix, measured_vector.^-1, settings, samples, initial_guess.^-1);
       x = x.^-1;

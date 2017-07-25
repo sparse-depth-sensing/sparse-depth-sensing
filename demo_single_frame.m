@@ -18,6 +18,7 @@ end
 settings.use_L1 = false;
 settings.use_L1_diag = true;
 settings.use_L1_cart = false;
+settings.use_L1_inv = false;
 settings.use_L1_inv_diag = true;
 
 % settings for sampling

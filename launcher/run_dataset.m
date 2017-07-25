@@ -15,6 +15,7 @@ array_naive = repmat(struct('error', {}, 'time', {}, 'pc_rec_noblack', {}, 'dept
 array_L1 = repmat(struct('error', {}, 'time', {}, 'pc_rec_noblack', {}, 'depth_rec', {}), num_data, 1);
 array_L1_diag = repmat(struct('error', {}, 'time', {}, 'pc_rec_noblack', {}, 'depth_rec', {}), num_data, 1);
 array_L1_cart = repmat(struct('error', {}, 'time', {}, 'pc_rec_noblack', {}, 'depth_rec', {}), num_data, 1);
+array_L1_inv = repmat(struct('error', {}, 'time', {}, 'pc_rec_noblack', {}, 'depth_rec', {}), num_data, 1);
 array_L1_inv_diag = repmat(struct('error', {}, 'time', {}, 'pc_rec_noblack', {}, 'depth_rec', {}), num_data, 1);
 compression_array = zeros(num_data, 1);
 
@@ -44,6 +45,7 @@ for img_ID = arrayIndices
     if settings.use_L1, array_L1(img_ID) = results.L1; end
     if settings.use_L1_diag, array_L1_diag(img_ID) = results.L1_diag; end
     if settings.use_L1_cart, array_L1_cart(img_ID) = results.L1_cart; end
+    if settings.use_L1_inv, array_L1_inv(img_ID) = results.L1_inv; end
     if settings.use_L1_inv_diag, array_L1_inv_diag(img_ID) = results.L1_inv_diag; end
     
 %     pause
@@ -52,5 +54,6 @@ end
 %% Save results array
 stats_filename = fullfile(output_folder, 'stats.mat');
 save(stats_filename, 'num_data', 'settings', 'compression_array', ...
-    'array_naive', 'array_L1', 'array_L1_diag', 'array_L1_cart', 'array_L1_inv_diag' ...
+    'array_naive', 'array_L1', 'array_L1_diag', 'array_L1_cart', ...
+    'array_L1_inv', 'array_L1_inv_diag' ...
     );

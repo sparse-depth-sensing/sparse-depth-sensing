@@ -103,7 +103,6 @@ end
 
 %% algorithm: L1
 if settings.use_L1
-  settings.useDiagonalTerm = false;
   results.L1 = reconstructDepthImage( 'L1', settings, ...
     height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
     depth, rgb, odometry, pc_truth_orig, fig1, 224);
@@ -111,7 +110,6 @@ end
 
 %% algorithm: L1-diag
 if settings.use_L1_diag
-  settings.useDiagonalTerm = true;
   results.L1_diag = reconstructDepthImage( 'L1-diag', settings, ...
     height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
     depth, rgb, odometry, pc_truth_orig, fig1, 224);
@@ -124,9 +122,15 @@ if settings.use_L1_cart
     depth, rgb, odometry, pc_truth_orig, fig1, 224);
 end
 
+%% algorithm: L1-inv
+if settings.use_L1_inv
+  results.L1_inv = reconstructDepthImage( 'L1-inv', settings, ...
+    height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
+    depth, rgb, odometry, pc_truth_orig, fig1, 224);
+end
+
 %% algorithm: L1-inv-diag
 if settings.use_L1_inv_diag
-  settings.useDiagonalTerm = true;
   results.L1_inv_diag = reconstructDepthImage( 'L1-inv-diag', settings, ...
     height, width, sampling_matrix, measured_vector, samples, results.naive.depth_rec(:), ...
     depth, rgb, odometry, pc_truth_orig, fig1, 224);
@@ -188,6 +192,12 @@ if settings.show_debug_info
       ['rmse=', sprintf('%.3g', 100*results.L1_inv_diag.error.rmse), 'cm']...
       };
     display_depth_image( results.L1_inv_diag.depth_rec, settings, titleString );
+  elseif settings.use_L1_inv
+    titleString = {'L1-inv', ...
+      ['mae=', sprintf('%.3g', 100*results.L1_inv.error.mae), 'cm'], ...
+      ['rmse=', sprintf('%.3g', 100*results.L1_inv.error.rmse), 'cm']...
+      };
+    display_depth_image( results.L1_inv.depth_rec, settings, titleString );
   end
   drawnow
 end
