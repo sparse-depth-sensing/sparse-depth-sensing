@@ -7,12 +7,12 @@ createSettings
 settings.solver = 'cvx'; 
 
 % settings for objective functions (algorithms)
-settings.use_naive = true;
-settings.use_L1 = true;
-settings.use_L1_diag = true;
-settings.use_L1_cart = false;
-settings.use_L1_inv = true;
-settings.use_L1_inv_diag = true;
+% settings.use_naive = true;
+% settings.use_L1 = true;
+% settings.use_L1_diag = true;
+% settings.use_L1_cart = true;
+% settings.use_L1_inv = true;
+% settings.use_L1_inv_diag = true;
 
 % settings for sampling
 settings.subSample = 0.2;          % subsample original image to reduce its size
@@ -27,8 +27,8 @@ datasetLabels = {'ZED', 'K1', 'K2', 'K3', ...
 num_datasets = length(DATASETS);
 
 %% Loop over all results
-for dataset_ID = 1 : num_datasets
+for dataset_ID = 1 : 7
   fprintf('ID=%d, Dataset=%s\n', dataset_ID, DATASETS{dataset_ID})
-  stats = load_result_stats(DATASETS{dataset_ID}, settings);
+  createVideo(DATASETS{dataset_ID}, settings);
 %   pause;
 end

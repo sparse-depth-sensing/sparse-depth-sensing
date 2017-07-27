@@ -22,7 +22,9 @@ else
   fprintf(' --> loading stats file.\n');
 end
 
+curr_settings = settings;
 load(stats_filename)
+settings = curr_settings;
 
 %% extract data out of the array of structs
 fprintf(' --> extracting data.\n');
@@ -109,23 +111,51 @@ naive_mark = 'r'; % s
 %% Mean error bar plot
 fig = figure(1);
 set(fig, 'Position', figure_position);
-euclidean_means = [mean(euclidean_naive), mean(euclidean_L1), ...
-  mean(euclidean_L1_diag), mean(euclidean_L1_cart), ...
-  mean(euclidean_L1_inv), mean(euclidean_L1_inv_diag)
-  ];
-mae_means = [mean(mae_naive), mean(mae_L1), ...
-  mean(mae_L1_diag), mean(mae_L1_cart), ...
-  mean(mae_L1_inv), mean(mae_L1_inv_diag)
-  ];
-rmse_means = [mean(rmse_naive), mean(rmse_L1), ...
-  mean(rmse_L1_diag), mean(rmse_L1_cart), ...
-  mean(rmse_L1_inv), mean(rmse_L1_inv_diag)
-  ];
-b = bar(7*[1:6], [euclidean_means', mae_means', rmse_means'], barwidth); 
-approachLabels = {'naive', 'l1', 'l1-diag', 'l1-cart', 'l1-inv', 'l1-inv-diag'};
+euclidean_means = [];
+mae_means = [];
+rmse_means = [];
+approachLabels = {};
+if settings.use_naive 
+  euclidean_means = [euclidean_means, mean(euclidean_naive)];
+  mae_means = [mae_means, mean(mae_naive)];
+  rmse_means = [rmse_means, mean(rmse_naive)];
+  approachLabels = [approachLabels; 'naive'];
+end
+if settings.use_L1
+  euclidean_means = [euclidean_means, mean(euclidean_L1)];
+  mae_means = [mae_means, mean(mae_L1)];
+  rmse_means = [rmse_means, mean(rmse_L1)];
+  approachLabels = [approachLabels; 'l1'];
+end
+if settings.use_L1_diag
+  euclidean_means = [euclidean_means, mean(euclidean_L1_diag)];
+  mae_means = [mae_means, mean(mae_L1_diag)];
+  rmse_means = [rmse_means, mean(rmse_L1_diag)];
+  approachLabels = [approachLabels; 'l1-diag'];
+end
+if settings.use_L1_cart
+  euclidean_means = [euclidean_means, mean(euclidean_L1_cart)];
+  mae_means = [mae_means, mean(mae_L1_cart)];
+  rmse_means = [rmse_means, mean(rmse_L1_cart)];
+  approachLabels = [approachLabels; 'l1-cart'];
+end
+if settings.use_L1_inv
+  euclidean_means = [euclidean_means, mean(euclidean_L1_inv)];
+  mae_means = [mae_means, mean(mae_L1_inv)];
+  rmse_means = [rmse_means, mean(rmse_L1_inv)];
+  approachLabels = [approachLabels; 'l1-inv'];
+end
+if settings.use_L1_inv_diag
+  euclidean_means = [euclidean_means, mean(euclidean_L1_inv_diag)];
+  mae_means = [mae_means, mean(mae_L1_inv_diag)];
+  rmse_means = [rmse_means, mean(rmse_L1_inv_diag)];
+  approachLabels = [approachLabels; 'l1-inv-diag'];
+end
+
+b = bar(7*[1:length(euclidean_means)], [euclidean_means', mae_means', rmse_means'], barwidth); 
 legend('euclidean error', 'mean absolute error', 'RMSE', 'Location', 'NorthWest')
 set(gca,'xticklabel', approachLabels);
-title(sprintf('dataset: %s', dataset));
+title(sprintf('dataset: %s', dataset), 'interpreter','none');
 ylabel('error[m]')
 set(gca,'FontSize',dim); 
 ylabh=get(gca,'ylabel'); set(ylabh, 'FontSize', dim); 

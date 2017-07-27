@@ -56,6 +56,8 @@ end
 
 %% Create random samples
 samples = createSamples( depth, rgb, settings );
+invalid_mask = isnan(depth(samples)) + depth(samples) == 0;
+samples(invalid_mask) = [];
 
 % if samples are not created properly
 if size(samples, 1) == 0
