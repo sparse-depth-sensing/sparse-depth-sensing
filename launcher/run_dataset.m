@@ -25,15 +25,20 @@ if nargin <= 2
 end
 for img_ID = arrayIndices
     disp('****************************************************************');
-    fprintf('Image ID : %3d\n', img_ID)
+    fprintf('Dataset: %s, Image ID: %3d\n', dataset, img_ID)
     
     pc_filename = fullfile(pc_folder, sprintf('%03d.mat', img_ID));
     if exist(pc_filename, 'file') == 2
         fprintf('results for img_ID=%d already exists.\n', img_ID)
         load(pc_filename);
     else
-    	[results, ~] = reconstruct_single_frame(img_ID, settings);
-        save(pc_filename, 'results');
+        try
+            [results, ~] = reconstruct_single_frame(img_ID, settings);
+            save(pc_filename, 'results');
+        catch ME
+            warning(sprintf('Error computing reconstruction for: dataset=%s, img_ID=%d', dataset, img_ID));
+    
+        end
     end
         
     if isfield(results, 'K')
