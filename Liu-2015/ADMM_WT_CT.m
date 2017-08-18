@@ -149,7 +149,9 @@ max_itr  = param.max_itr;
 tol      = param.tol;
 
 total_time = 0;
-fprintf('Itr \t relchg \t iter_time \t total_time    \n');
+if ~isfield(param, 'verbose') || (param.verbose)
+  fprintf('Itr \t relchg \t iter_time \t total_time    \n');
+end
 for itr=1:max_itr
     tic
     xold = x;
@@ -218,13 +220,14 @@ for itr=1:max_itr
     total_time = total_time + time_elapsed;
     relchg = norm(x - xold)/norm(x);
     
-    fprintf('%3g \t %3.5e \t %4g \t %4g \n', itr, relchg, time_elapsed, total_time);
+    if ~isfield(param, 'verbose') || (param.verbose)
+      fprintf('%3g \t %3.5e \t %4g \t %4g \n', itr, relchg, time_elapsed, total_time);  
+      figure(1); imshow(x);
+    end
     
     if (relchg<=tol)&&(itr>1)
         break;
     end
-    
-    figure(1); imshow(x);
    
     xout  = x;
 end

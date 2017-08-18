@@ -12,12 +12,10 @@ clc
 sp=[ 0.05 0.10 0.15 0.2];
 
 % access disparity data
-c=cd('data');
-gt_x0  = im2double(imread('Aloe_disp1_512.png'));
+gt_x0  = im2double(imread(fullfile('..', 'data', 'middlebury', 'Aloe_disp1_512.png')));
 % downsample
 % gt_x0 = imresize(gt_x0, 0.5);
 x0 = gt_x0;
-cd(c);
 
 [rows cols] = size(x0);
 % for itr = 1: length(sp)
