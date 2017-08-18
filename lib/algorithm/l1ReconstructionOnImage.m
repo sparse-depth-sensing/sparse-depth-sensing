@@ -1,4 +1,4 @@
-function [ z ] = l1ReconstructionOnImage( height, width, R, y, settings, samples, zinit)
+function [ z, time ] = l1ReconstructionOnImage( height, width, R, y, settings, samples, zinit)
 % l1ReconstructionOnImage L1 reconstruction for sparse depth measurements
 %   Detailed explanation goes here
 
@@ -21,7 +21,7 @@ time_create_TV2 = toc;
 % disp(['size of TV2: ', num2str(size(TV2, 1)), ' ', num2str(size(TV2, 2))])
 
 %% Solving the problem
-
+tic
 % using nesta
 if strcmp(lower(settings.solver), 'nesta')    
     [z,timeFast,iterFast] = solve_nesta_2D(TV2,y, ...
@@ -57,5 +57,6 @@ elseif strcmp(lower(settings.solver), 'cvx')
 else
     error(['Wrong settings.solver: ', settings.solver])
 end
+time = toc;
 end
 

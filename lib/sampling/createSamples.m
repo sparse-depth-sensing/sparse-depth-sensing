@@ -123,8 +123,8 @@ if(settings.doAddNeighbors)
     samples = addNeighbors(samples, height, width); 
 end
 
-% make sure that all measurements are valid
-mask_valid = find(~isnan(depth(samples)));
+% keep only the valid measurements
+mask_valid = find(~isnan(depth(samples)) & depth(samples)>=0);
 samples = samples(mask_valid);
 K = length(samples);
 

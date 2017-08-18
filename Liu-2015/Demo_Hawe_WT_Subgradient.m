@@ -10,7 +10,7 @@
 close all
 clear all
 clc
-sp=[ 0.05 ];
+sp=[ 0.2 ];
 
 % access disparity data
 gt_x0  = im2double(imread(fullfile('..', 'data', 'middlebury', 'Aloe_disp1_512.png')));
@@ -28,7 +28,8 @@ for spID=1:length(sp)
     b = S.*x0;
     
     % main algorithm
-    xout = CS_SparseReconstruction(b, x0,S);
+    [xout, time] = CS_SparseReconstruction(b, x0, S);
+    time
     eer = mean((xout(:)-x0(:)).^2);
     MSE(spID) = 10*log10(255^2/eer);
     
