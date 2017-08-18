@@ -10,12 +10,14 @@
 close all
 clear all
 clc
-sp=[ 0.2 ];
+sp=[ 0.05 ];
 
 % access disparity data
 gt_x0  = im2double(imread(fullfile('..', 'data', 'middlebury', 'Aloe_disp1_512.png')));
 x0 = gt_x0;
 [rows cols] = size(x0);
+
+% cd('Hawe_WT')
 
 for spID=1:length(sp)
     
@@ -35,4 +37,6 @@ for spID=1:length(sp)
     
     imshow(xout);
     
+    computeErrorImage(xout, x0)
+    out = psnr(x0, xout);
 end

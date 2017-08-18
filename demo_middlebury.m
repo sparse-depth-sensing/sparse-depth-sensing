@@ -9,9 +9,9 @@ createSettings
 settings.solver = 'nesta';         % choose either 'cvx' or 'nesta'
 
 % settings for sampling
-settings.subSample = 1;          % subsample original image to reduce its size
-settings.percSamples = 0.05;       % perceptage of samples relative to image size
-settings.sampleMode = 'regular-grid';   % choose from 'uniform', 'harris-feature', 'regular-grid'
+settings.subSample = 0.5;          % subsample original image to reduce its size
+settings.percSamples = 20 / 100;       % perceptage of samples relative to image size
+settings.sampleMode = 'uniform';   % choose from 'uniform', 'harris-feature', 'regular-grid'
 settings.doAddNeighbors = false;   % set to true, if we want to sample neighboring pixels
 
 output_folder = fullfile(getPath('results'), 'middlebury');
@@ -81,19 +81,25 @@ for i = 1 : length(listing)
   S(samples) = 1;
   b = S .* disparityImage;
   
+  %% algorithm: Hawe'11
+  [Hawe.reconstruction, Hawe.time] = CS_SparseReconstruction(b, disparityImage, S);
+  Hawe.error.psnr = psnr(disparityImage, Hawe.reconstruction);
+  disp(sprintf(' --- %8s: time=%.5gms, psnr=%.3gdB (high is good)', ...
+    'Hawe-11', 1000*Hawe.time, Hawe.error.psnr))
+  
+  %% algorithm: Liu'15
+  [Liu.reconstruction, Liu.time] = ADMM_WT_CT(S,b,WTCTparam);
+  Liu.error.psnr = psnr(disparityImage, Liu.reconstruction);
+  disp(sprintf(' --- %8s: time=%.5gms, psnr=%.3gdB (high is good)', ...
+    'Liu-15', 1000*Liu.time, Liu.error.psnr))
+  
   %% algorithm: naive
   tic
   naive.reconstruction = linearInterpolationOnImage( height, width, samples, measured_vector );
   naive.time = toc;
-  naive.error = computeErrorImage(naive.reconstruction, disparityImage);
-  disp(sprintf(' --- %8s: time=%.5gms, mae=%.3g, rmse=%.3g, mse=%.3g, psnr=%.3gdB (high is good)', ...
-    'naive', 1000*naive.time, naive.error.mae, naive.error.rmse, naive.error.mse, naive.error.psnr))
-  
-  %% algorithm: Hawe'11
-  [Hawe.reconstruction, Hawe.time] = CS_SparseReconstruction(b, disparityImage, S);
-  Hawe.error = computeErrorImage(Hawe.reconstruction, disparityImage);
-  disp(sprintf(' --- %8s: time=%.5gms, mae=%.3g, rmse=%.3g, mse=%.3g, psnr=%.3gdB (high is good)', ...
-    'Hawe-11', 1000*Hawe.time, Hawe.error.mae, Hawe.error.rmse, Hawe.error.mse, Hawe.error.psnr))
+  naive.error.psnr = psnr(disparityImage, naive.reconstruction);
+  disp(sprintf(' --- %8s: time=%.5gms, psnr=%.3gdB (high is good)', ...
+    'naive', 1000*naive.time, naive.error.psnr))
   
   %% algorithm: L1-diag
   settings.useDiagonalTerm = true;
@@ -101,15 +107,9 @@ for i = 1 : length(listing)
   [x_L1_diag, L1_diag.time] = l1ReconstructionOnImage( height, width, sampling_matrix, ...
     measured_vector, settings, samples, initial_guess(:));
   L1_diag.reconstruction = reshape(x_L1_diag, height, width);
-  L1_diag.error = computeErrorImage(L1_diag.reconstruction, disparityImage);
-  disp(sprintf(' --- %8s: time=%.5gms, mae=%.3g, rmse=%.3g, mse=%.3g, psnr=%.3gdB (high is good)', ...
-    'L1-diag', 1000*L1_diag.time, L1_diag.error.mae, L1_diag.error.rmse, L1_diag.error.mse, L1_diag.error.psnr))
-  
-  %% algorithm: Liu'15
-  [Liu.reconstruction, Liu.time] = ADMM_WT_CT(S,b,WTCTparam);
-  Liu.error = computeErrorImage(Liu.reconstruction, disparityImage);
-  disp(sprintf(' --- %8s: time=%.5gms, mae=%.3g, rmse=%.3g, mse=%.3g, psnr=%.3gdB (high is good)', ...
-    'Liu-15', 1000*Liu.time, Liu.error.mae, Liu.error.rmse, Liu.error.mse, Liu.error.psnr))
+  L1_diag.error.psnr = psnr(disparityImage, L1_diag.reconstruction);
+  disp(sprintf(' --- %8s: time=%.5gms, psnr=%.3gdB (high is good)', ...
+    'L1-diag', 1000*L1_diag.time, L1_diag.error.psnr))
   
   %% visualization
   figure(i);
@@ -129,30 +129,26 @@ for i = 1 : length(listing)
   subplot(233); 
   imshow(naive.reconstruction);
   titleString = {'naive', ...
-      ['mae=', sprintf('%.3gpixel', naive.error.mae)], ...
-      ['rmse=', sprintf('%.3gpixel', naive.error.rmse)]};
+      ['psnr=', sprintf('%.3g db', naive.error.psnr)]};
   title(titleString);
 
   subplot(234); 
   imshow(Hawe.reconstruction);
   titleString = {'Hawe-2011', ...
-      ['mae=', sprintf('%.3gpixel', naive.error.mae)], ...
-      ['rmse=', sprintf('%.3gpixel', naive.error.rmse)]};
+      ['psnr=', sprintf('%.3g db', Hawe.error.psnr)]};
   title(titleString);
   
   subplot(235); 
   imshow(Liu.reconstruction);
   titleString = {'Liu-2015', ...
-      ['mae=', sprintf('%.3gpixel', Liu.error.mae)], ...
-      ['rmse=', sprintf('%.3gpixel', Liu.error.rmse)]};
+      ['psnr=', sprintf('%.3g db', Liu.error.psnr)]};
   title(titleString);
   
   
   subplot(236); 
   imshow( L1_diag.reconstruction);
   titleString = {'L1-diag', ...
-      ['mae=', sprintf('%.3gpixel', L1_diag.error.mae)], ...
-      ['rmse=', sprintf('%.3gpixel', L1_diag.error.rmse)]};
+      ['psnr=', sprintf('%.3g db', L1_diag.error.psnr)]};
   title(titleString);
   
   drawnow;

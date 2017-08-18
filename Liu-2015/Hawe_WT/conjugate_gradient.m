@@ -20,7 +20,6 @@ l1min.init();
 % cnt =1;
 %% Perform the real optimization
 while(1)
-    tic;
     % First we perform the linesearch, where we find the step size t and
     % update the current solution to x
     [l1min,worked] = l1min.linesearch();
