@@ -10,9 +10,8 @@ settings.solver = 'nesta';         % choose either 'cvx' or 'nesta'
 
 % settings for sampling
 settings.subSample = 0.5;          % subsample original image to reduce its size
-settings.percSamples = 20 / 100;       % perceptage of samples relative to image size
+settings.percSamples = 5 / 100;       % perceptage of samples relative to image size
 settings.sampleMode = 'uniform';   % choose from 'uniform', 'harris-feature', 'regular-grid'
-settings.doAddNeighbors = false;   % set to true, if we want to sample neighboring pixels
 
 output_folder = fullfile(getPath('results'), 'middlebury');
 output_folder = fullfile(output_folder, ...
@@ -60,26 +59,31 @@ for i = 1 : length(listing)
   end
   
   %% Create measurements
-  xGT = disparityImage(:);
-  samples = createSamples( disparityImage, [], settings );
-  N = length(xGT);    % total number of valid 3D points
-  K = length(samples);    % total number of measurements
-  
   height = size(disparityImage,1);
   width = size(disparityImage,2);
+  
+  xGT = disparityImage(:);
+  
+  S = ( rand(height, width) <= settings.percSamples );
+  b = S .* disparityImage;
+  
+  samples = find(S > 0);
+%   samples = createSamples( disparityImage, [], settings );
+  N = length(xGT);    % total number of valid 3D points
+  K = length(samples);    % total number of measurements
   
   % create sparse sampling matrix
   Rfull = speye(N);
   sampling_matrix = Rfull(samples, :);
   img_sample = zeros(size(disparityImage));
-  img_sample(samples) = 255 * xGT(samples);
+  img_sample(samples) = xGT(samples);
   measured_vector = sampling_matrix * xGT;
   disp(sprintf(' --- samples (number=%3d, percentage=%.2g%%)', K, 100*K/N));
-  
-  % Liu'2015 uses a different format
-  S = zeros(size(disparityImage));
-  S(samples) = 1;
-  b = S .* disparityImage;
+   
+%   % Liu'2015 uses a different format
+%   S = zeros(size(disparityImage));
+%   S(samples) = 1;
+%   b = S .* disparityImage;
   
   %% algorithm: Hawe'11
   [Hawe.reconstruction, Hawe.time] = CS_SparseReconstruction(b, disparityImage, S);
