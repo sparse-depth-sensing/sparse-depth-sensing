@@ -7,6 +7,8 @@ createSettings
 
 % settings for solver
 settings.solver = 'nesta';         % choose either 'cvx' or 'nesta'
+settings.mu = 0.1;
+settings.useDiagonalTerm = true;
 
 % settings for sampling
 settings.subSample = 0.5;          % subsample original image to reduce its size
@@ -15,8 +17,8 @@ settings.sampleMode = 'uniform';   % choose from 'uniform', 'harris-feature', 'r
 
 output_folder = fullfile(getPath('results'), 'middlebury');
 output_folder = fullfile(output_folder, ...
-  sprintf('subSample=%g.percSamples=%g.sampleMode=%s', ...
-    settings.subSample, settings.percSamples, settings.sampleMode) ...
+  sprintf('mu=%.subSample=%g.percSamples=%g.sampleMode=%s', ...
+    settings.mu, settings.subSample, settings.percSamples, settings.sampleMode) ...
   );
 mkdir(output_folder)
 
@@ -106,8 +108,7 @@ for i = 1 : length(listing)
     'naive', 1000*naive.time, naive.error.psnr))
   
   %% algorithm: L1-diag
-  settings.useDiagonalTerm = true;
-  initial_guess = naive.reconstruction;
+  initial_guess = img_sample(:);
   [x_L1_diag, L1_diag.time] = l1ReconstructionOnImage( height, width, sampling_matrix, ...
     measured_vector, settings, samples, initial_guess(:));
   L1_diag.reconstruction = reshape(x_L1_diag, height, width);
@@ -126,6 +127,7 @@ for i = 1 : length(listing)
   title('ground truth disparity');
   
   subplot(232); 
+  img_sample(samples) = 255;
   imshow(img_sample); 
   titleString = sprintf('%.3g%% samples', 100*settings.percSamples);
   title(titleString);
